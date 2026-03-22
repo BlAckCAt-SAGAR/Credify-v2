@@ -35,3 +35,6 @@ typing-inspection
 typing_extensions
 urllib3
 uvicorn
+pandas
+openpyxl
+tabulate

@@ -461,12 +461,12 @@ function Step1Upload({ files, setFiles, onNext, loading, result }) {
           <Icons.Upload />
         </div>
         <h2 style={{ fontSize: "32px", fontWeight: "900", marginBottom: "12px" }}>Upload Documents</h2>
-        <p style={{ color: COLORS.subtext, marginBottom: "40px" }}>Select up to 5 documents (Annual Report, GST Filing, ITR, Financial Statements, ALM).</p>
+        <p style={{ color: COLORS.subtext, marginBottom: "40px" }}>Select up to 5 documents (PDF or Excel files: Annual Report, GST Filing, ITR, Financial Statements, ALM).</p>
 
         <label style={{ display: "block", border: `2px dashed ${COLORS.border}`, borderRadius: "24px", padding: "40px", cursor: "pointer", transition: "all 0.3s", background: files && files.length > 0 ? "#fdf2f8" : "transparent" }}>
-          <input type="file" accept=".pdf" multiple onChange={e => setFiles(Array.from(e.target.files))} style={{ display: "none" }} />
+          <input type="file" accept=".pdf,.xlsx" multiple onChange={e => setFiles(Array.from(e.target.files))} style={{ display: "none" }} />
           <div style={{ fontSize: "48px", marginBottom: "16px" }}>{files && files.length > 0 ? "📃" : "📁"}</div>
-          <div style={{ fontSize: "18px", fontWeight: "800" }}>{files && files.length > 0 ? `${files.length} file(s) selected` : "Choose PDFs or drag them here"}</div>
+          <div style={{ fontSize: "18px", fontWeight: "800" }}>{files && files.length > 0 ? `${files.length} file(s) selected` : "Choose PDFs, Excel files or drag them here"}</div>
           {files && files.length > 0 && (
             <div style={{ fontSize: "14px", color: COLORS.primary, marginTop: "12px", fontWeight: "600", display: "flex", flexDirection: "column", gap: "4px" }}>
               {files.map((f, i) => <span key={i}>{f.name}</span>)}

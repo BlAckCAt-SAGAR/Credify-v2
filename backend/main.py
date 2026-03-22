@@ -1,4 +1,4 @@
-from parser import extract_text_from_pdf
+from parser import extract_text_from_pdf, extract_text_from_xlsx
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -63,7 +63,7 @@ async def upload_files(files: List[UploadFile] = File(...)):
     total_size = 0
 
     for file in files:
-        if not file.filename.endswith(".pdf"):
+        if not (file.filename.endswith(".pdf") or file.filename.endswith(".xlsx")):
             continue
 
         file_bytes = await file.read()
@@ -73,7 +73,11 @@ async def upload_files(files: List[UploadFile] = File(...)):
         if total_size > 100_000_000:
             raise HTTPException(status_code=413, detail="Total files size too large. Max 100MB.")
 
-        text = extract_text_from_pdf(file_bytes)
+        if file.filename.endswith(".pdf"):
+            text = extract_text_from_pdf(file_bytes)
+        elif file.filename.endswith(".xlsx"):
+            text = extract_text_from_xlsx(file_bytes)
+            
         all_text += f"\n--- DOCUMENT: {file.filename} ---\n{text}\n"
         filenames.append(file.filename)
         

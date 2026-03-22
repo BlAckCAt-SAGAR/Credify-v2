@@ -2,6 +2,7 @@ import pdfplumber
 import pytesseract
 from PIL import Image
 import io
+import pandas as pd
 
 MAX_PAGES = 15  # Limit to first 10 pages to avoid memory crash on Render free tier
 
@@ -34,4 +35,29 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
                     print(f"OCR Error: {str(e)}")
                     text += f"[OCR Error on page: {str(e)}]\n"
     
+    return text.strip()
+
+def extract_text_from_xlsx(file_bytes: bytes) -> str:
+    text = ""
+    try:
+        # Read all sheets from the Excel file
+        excel_data = pd.read_excel(io.BytesIO(file_bytes), sheet_name=None, engine='openpyxl')
+        
+        for sheet_name, df in excel_data.items():
+            text += f"\\n--- SHEET: {sheet_name} ---\\n"
+            # Drop purely empty columns/rows to save tokens
+            df.dropna(how='all', inplace=True)
+            df.dropna(axis=1, how='all', inplace=True)
+            
+            if df.empty:
+                text += "[Empty Sheet]\\n"
+                continue
+            
+            # Convert to markdown table format which is highly readable for LLMs
+            text += df.to_markdown(index=False) + "\\n"
+            
+    except Exception as e:
+        print(f"Excel Parsing Error: {str(e)}")
+        text += f"[Error Parsing Excel: {str(e)}]\\n"
+        
     return text.strip()
