@@ -1,5 +1,5 @@
 
-# Credly — AI-Powered Credit Appraisal Engine
+# Credly V2 — AI-Powered Credit Appraisal Engine
 
 **Upload a company's financial documents. Get a full Credit Appraisal Memo in minutes.**
 
@@ -131,8 +131,3 @@ Free API keys: [Groq](https://console.groq.com) · [Tavily](https://tavily.com)
 > *"A credit manager today takes 3 weeks. Credly: under 5 minutes."*
 
 ---
-
-## Team
-
-**Team Name:** Clueless Coders  
-**Team Lead:** Krishna
